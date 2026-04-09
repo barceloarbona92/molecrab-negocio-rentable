@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0b12" />
+  <meta name="description" content="Blueprint Generator — calculadora algorítmica que diseña tu plan de reset de dopamina de 14 días en base a tus restricciones reales." />
+  <meta name="color-scheme" content="dark" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Blueprint" />
+  <meta property="og:title" content="Dopamine Blueprint Generator" />
+  <meta property="og:description" content="Prescripción algorítmica de 14 días. Optimización combinatoria. Sin pastillas." />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+  <title>Dopamine Blueprint · Generator</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="app">
+
+    <!-- ============ INTRO ============ -->
+    <section id="screen-intro" class="screen active">
+      <header class="top">
+        <div class="brand">
+          <span class="logo" aria-hidden="true">∆</span>
+          <div>
+            <h1>Dopamine Blueprint</h1>
+            <p class="subtitle">Prescripción algorítmica · 14 días</p>
+          </div>
+        </div>
+      </header>
+
+      <div class="hero-intro">
+        <div class="pill">Combinatoria aplicada · constraint satisfaction</div>
+        <h2>Tu cerebro no necesita motivación.<br/>Necesita un <span class="accent">protocolo</span>.</h2>
+        <p class="lead">
+          Este generador usa <strong>optimización combinatoria</strong> para elegir 5 micro-hábitos de un banco de 42,
+          bajo tus restricciones reales (tiempo, energía, triggers) y maximizando el score de reset.
+          Resultado: un plan único de 14 días, irrepetible.
+        </p>
+
+        <div class="proof">
+          <div class="proof-item"><strong>42</strong><span>micro-acciones</span></div>
+          <div class="proof-item"><strong>6</strong><span>preguntas</span></div>
+          <div class="proof-item"><strong>~60s</strong><span>cálculo</span></div>
+        </div>
+
+        <button id="start-btn" class="primary">Generar mi Blueprint →</button>
+        <p class="fineprint">Sin cuenta · sin descarga · 100% en tu dispositivo</p>
+      </div>
+    </section>
+
+    <!-- ============ QUIZ ============ -->
+    <section id="screen-quiz" class="screen">
+      <header class="top compact">
+        <button id="back-btn" class="ghost" aria-label="Atrás">←</button>
+        <div class="progress-wrap">
+          <div class="progress-bar"><div id="progress-fg"></div></div>
+          <div class="progress-label" id="progress-label">1 / 6</div>
+        </div>
+      </header>
+
+      <div id="question-container" class="question-container" aria-live="polite">
+        <!-- inyectado por JS -->
+      </div>
+    </section>
+
+    <!-- ============ COMPUTING ============ -->
+    <section id="screen-compute" class="screen">
+      <div class="compute-wrap">
+        <div class="spinner" aria-hidden="true"></div>
+        <h3>Resolviendo combinatoria…</h3>
+        <ul id="compute-log" class="compute-log"></ul>
+      </div>
+    </section>
+
+    <!-- ============ RESULT ============ -->
+    <section id="screen-result" class="screen">
+      <header class="top compact">
+        <div class="brand small">
+          <span class="logo small" aria-hidden="true">∆</span>
+          <div><strong>Tu Blueprint</strong></div>
+        </div>
+        <button id="restart-btn" class="ghost small">↻</button>
+      </header>
+
+      <div class="result-wrap">
+        <div class="result-score">
+          <div class="score-ring">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle cx="60" cy="60" r="52" class="ring-bg"></circle>
+              <circle cx="60" cy="60" r="52" class="ring-fg" id="result-ring"></circle>
+            </svg>
+            <div class="score-center">
+              <div id="score-num">0</div>
+              <div class="score-label">score</div>
+            </div>
+          </div>
+          <div class="score-meta">
+            <div class="score-line"><span>Tiempo/día</span><strong id="score-time">0 min</strong></div>
+            <div class="score-line"><span>Dificultad</span><strong id="score-diff">—</strong></div>
+            <div class="score-line"><span>ID único</span><strong id="score-id">—</strong></div>
+          </div>
+        </div>
+
+        <div class="section-title">Tu protocolo de 14 días</div>
+        <div id="habits-list" class="habits-list"></div>
+
+        <div class="section-title">Por qué esta combinación</div>
+        <div id="why-list" class="why-list"></div>
+
+        <div class="lead-capture" id="lead-capture">
+          <h3>¿Guardarlo para los próximos 14 días?</h3>
+          <p>Te envío un email diario con la acción del día y el tracker de progreso. Es gratis y parte del <strong>Protocolo Dopamina</strong>.</p>
+          <form id="lead-form" novalidate>
+            <input type="email" id="lead-email" placeholder="tu@email.com" autocomplete="email" required />
+            <button type="submit" class="primary">Enviarme el plan</button>
+          </form>
+          <p class="fineprint" id="lead-status">Un email al día durante 14 días. Puedes darte de baja cuando quieras.</p>
+        </div>
+
+        <div class="cta-upsell">
+          <a class="cta-link" href="https://producto-protocolo-dopamina.vercel.app" target="_blank" rel="noopener">
+            ¿Prefieres el método completo? → Protocolo Dopamina · €9.99
+          </a>
+        </div>
+
+        <div class="share-row">
+          <button id="share-btn" class="secondary">Compartir mi Blueprint</button>
+          <button id="copy-btn" class="secondary">Copiar texto</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <script src="./habits.js" defer></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>
